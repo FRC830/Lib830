@@ -9,7 +9,7 @@
 
 GamepadF310::GamepadF310(int port) {
 	joystick = new Joystick(port);
-	button_state = std::vector<bool>(buttonMax + 1, false);
+	button_state = std::vector<bool>(F310Buttons::Max + 1, false);
 }
 
 GamepadF310::~GamepadF310() {
@@ -75,7 +75,7 @@ bool GamepadF310::ButtonState(int buttonNum) {
 }
 
 bool GamepadF310::GetButtonEvent(ButtonEvent *e) {
-	for (int b = buttonMin; b <= buttonMax; b++) {
+	for (int b = F310Buttons::Min; b <= F310Buttons::Max; b++) {
 		bool cur = ButtonState(b);
 		if (button_state[b] != cur) {
 			button_state[b] = cur;

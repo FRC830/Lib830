@@ -10,6 +10,22 @@
 #ifndef UTIL_GAMEPADF310_H_
 #define UTIL_GAMEPADF310_H_
 
+namespace F310Buttons {
+	//the gamepad buttons
+	const int A = 1;
+	const int B = 2;
+	const int X = 3;
+	const int Y = 4;
+	const int LeftBumper = 5;
+	const int RightBumper = 6;
+	const int Back = 7;
+	const int Start = 8;
+	const int LeftStick = 9;
+	const int RightStick = 10;
+	const int Min = A;
+	const int Max = RightStick;
+}
+
 class GamepadF310 {
 public:
 	GamepadF310(int port);
@@ -25,20 +41,6 @@ public:
 
 	void LeftRumble(float rumbleness); //doesn't actually do anything on our controllers :(
 	void RightRumble(float rumbleness); //ditto
-
-	//the gamepad buttons
-	const static int buttonA = 1;
-	const static int buttonB = 2;
-	const static int buttonX = 3;
-	const static int buttonY = 4;
-	const static int buttonLeftBumper = 5;
-	const static int buttonRightBumper = 6;
-	const static int buttonBack = 7;
-	const static int buttonStart = 8;
-	const static int buttonLeftStick = 9;
-	const static int buttonRightStick = 10;
-	const static int buttonMin = buttonA;
-	const static int buttonMax = buttonRightStick;
 
 	struct ButtonEvent {
 		bool pressed;
