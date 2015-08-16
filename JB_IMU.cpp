@@ -107,7 +107,7 @@ long convert_sensor_to_compass(long yawSensorAngle) {
   unsigned int count;
   //int compassAngle;
   long deltaSensorError, deltaCompassBin;
-  bool done;
+  bool done = false;
 
   long result = 0;
 
