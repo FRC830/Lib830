@@ -51,16 +51,16 @@ ADXRS450Gyro::ADXRS450Gyro() {
 
 void ADXRS450Gyro::Start() {
 	if (task_started) {
-		update_task->Resume();
+//		update_task->Resume();
 	} else {
-		update_task->Start((int) this);
+//		update_task->Start((int) this);
 		task_started = true;
 	}
 }
 
 void ADXRS450Gyro::Stop() {
 	if (task_started) {
-		update_task->Suspend();
+//		update_task->Suspend();
 	}
 }
 

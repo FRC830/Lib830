@@ -179,16 +179,16 @@ JB_IMU::JB_IMU() {
 
 void JB_IMU::Start() {
 	if (task_started) {
-		update_task->Resume();
+//		update_task->Resume();
 	} else {
-		update_task->Start((int) this);
+//		update_task->Start((int) this);
 		task_started = true;
 	}
 }
 
 void JB_IMU::Stop() {
 	if (task_started) {
-		update_task->Suspend();
+//		update_task->Suspend();
 	}
 }
 
