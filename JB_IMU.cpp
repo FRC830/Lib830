@@ -52,23 +52,15 @@ long compassAngleBins[BIN_SIZE] = {
 // return
 //                              Never returns
 //
-int JB_IMU_UpdateFunction(int pointer_val) {
-	JB_IMU * jb_imu = (JB_IMU *) pointer_val;
 
-	// Creates a timer used to measure the time between gyro updates.
-	Timer * timer = new Timer(); //don't update too often
-	timer->Start();
-
-	// Iterate Infinitely...
+static LockedItem<std::set<JB_IMU*> > active_jb_imus;
+int JB_IMU_UpdateFunction(int) {
 	while (true) {
-		// Do a spi transaction to read value from the sensor
-		jb_imu->Update();
-
-		// Report measured time to smart dashboard
-		SmartDashboard::PutNumber("task loop time", timer->Get());
-
-		// Reset timer for next pass
-		timer->Reset();
+		LockedItemGuard g(active_jb_imus.mutex);
+		for_each(active_jb_imus.value, [](JB_IMU *jb_imu) {
+			jb_imu->Update();
+		});
+		std::this_thread::yield();
 	}
 	return 0;
 }
@@ -172,24 +164,22 @@ JB_IMU::JB_IMU() {
 	calibration_timer = new Timer();
 #endif
 
-	update_task = new Task("JB_IMU_update", (FUNCPTR) &JB_IMU_UpdateFunction); //TODO: this should give a unique name for each gyro object
-	task_started = false;
-}
-
-
-void JB_IMU::Start() {
-	if (task_started) {
-//		update_task->Resume();
-	} else {
-//		update_task->Start((int) this);
+	static bool task_started = false;
+	if (!task_started) {
+		new Task("JB_IMU_update", (FUNCPTR) &JB_IMU_UpdateFunction);
 		task_started = true;
 	}
 }
 
+
+void JB_IMU::Start() {
+	LockedItemGuard g(active_jb_imus.mutex);
+	active_jb_imus.value.insert(this);
+}
+
 void JB_IMU::Stop() {
-	if (task_started) {
-//		update_task->Suspend();
-	}
+	LockedItemGuard g(active_jb_imus.mutex);
+	active_jb_imus.value.erase(this);
 }
 
 void JB_IMU::Update() {

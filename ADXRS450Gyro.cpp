@@ -8,15 +8,17 @@
 #include "ADXRS450Gyro.h"
 #include "830utilities.h"
 #include <cstdarg>
+#include <set>
 
-int ADXRS450GyroUpdateFunction(int pointer_val) {
-	ADXRS450Gyro * gyro = (ADXRS450Gyro *) pointer_val;
-	Timer * timer = new Timer(); //don't update too often
-	timer->Start();
+static LockedItem<std::set<ADXRS450Gyro*> > active_gyros;
+
+int ADXRS450GyroUpdateFunction(int) {
 	while (true) {
-		gyro->Update();
-		SmartDashboard::PutNumber("task loop time", timer->Get());
-		timer->Reset();
+		LockedItemGuard g(active_gyros.mutex);
+		for_each(active_gyros.value, [](ADXRS450Gyro *gyro) {
+			gyro->Update();
+		});
+		std::this_thread::yield();
 	}
 	return 0;
 }
@@ -44,24 +46,22 @@ ADXRS450Gyro::ADXRS450Gyro() {
 	update_timer = new Timer();
 	calibration_timer = new Timer();
 
-	update_task = new Task("adxrs450update", (FUNCPTR) &ADXRS450GyroUpdateFunction); //TODO: this should give a unique name for each gyro object
-	task_started = false;
+	static bool started = false;
+	if (!started) {
+		new Task("adxrs450update", (FUNCPTR)&ADXRS450GyroUpdateFunction);
+		started = true;
+	}
 }
 
 
 void ADXRS450Gyro::Start() {
-	if (task_started) {
-//		update_task->Resume();
-	} else {
-//		update_task->Start((int) this);
-		task_started = true;
-	}
+	LockedItemGuard g(active_gyros.mutex);
+	active_gyros.value.insert(this);
 }
 
 void ADXRS450Gyro::Stop() {
-	if (task_started) {
-//		update_task->Suspend();
-	}
+	LockedItemGuard g(active_gyros.mutex);
+	active_gyros.value.erase(this);
 }
 
 void ADXRS450Gyro::Update() {

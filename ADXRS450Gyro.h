@@ -51,7 +51,6 @@ private:
 	SPI * spi;
 
 	Task * update_task;
-	bool task_started;
 
 	char sensor_output_1[9];
 	char sensor_output_2[9];

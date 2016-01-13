@@ -14,6 +14,7 @@
 #include "ADXRS450Gyro.h"
 #include "DigitalLED.h"
 #include "Math.h"
+#include "Misc.h"
 
 void reverse(char s[]); //reverses the order of characters in s
 void to_binary_string(unsigned char n, char s[]); //store a string in s corresponding to the binary representation of the value of n
