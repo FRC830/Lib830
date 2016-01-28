@@ -22,8 +22,12 @@ namespace F310Buttons {
 	const int Start = 8;
 	const int LeftStick = 9;
 	const int RightStick = 10;
+	const int DPadXUp = 11;
+	const int DPadXDown = 12;
+	const int DPadYUp = 13;
+	const int DPadYDown = 14;
 	const int Min = A;
-	const int Max = RightStick;
+	const int Max = DPadYDown;
 }
 
 class GamepadF310 {
