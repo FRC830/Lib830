@@ -8,6 +8,7 @@
 #ifndef UTIL_MATH_H_
 #define UTIL_MATH_H_
 
+#include <algorithm>
 #include <stdint.h>
 
 typedef int8_t int8;
