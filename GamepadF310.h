@@ -22,12 +22,17 @@ namespace F310Buttons {
 	const int Start = 8;
 	const int LeftStick = 9;
 	const int RightStick = 10;
+	const int DPadUp = 11;
+	const int DPadDown = 12;
+	const int DPadLeft = 13;
+	const int DPadRight = 14;
 	const int Min = A;
-	const int Max = RightStick;
+	const int Max = DPadRight;
 }
 
 class GamepadF310 {
 public:
+	static constexpr float STICK_THRESHOLD = 0.01;
 	GamepadF310(int port);
 	virtual ~GamepadF310();
 	float LeftX();
@@ -48,6 +53,9 @@ public:
 	};
 	bool ButtonState(int buttonNum);
 	bool GetButtonEvent(ButtonEvent *e);
+
+	// whether either left or right x/y are above STICK_THRESHOLD
+	bool AnyStick();
 
 protected:
 	std::vector<bool> button_state;

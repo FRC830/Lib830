@@ -71,7 +71,25 @@ float GamepadF310::DPadY() {
 
 
 bool GamepadF310::ButtonState(int buttonNum) {
-	return joystick->GetRawButton(buttonNum);
+	using namespace F310Buttons;
+	switch (buttonNum)
+	{
+	case DPadUp:
+		return DPadY() == 1;
+		break;
+	case DPadDown:
+		return DPadY() == -1;
+		break;
+	case DPadLeft:
+		return DPadX() == -1;
+		break;
+	case DPadRight:
+		return DPadX() == 1;
+		break;
+	default:
+		return joystick->GetRawButton(buttonNum);
+		break;
+	}
 }
 
 bool GamepadF310::GetButtonEvent(ButtonEvent *e) {
@@ -93,4 +111,12 @@ void GamepadF310::RightRumble(float rumbleness){
 
 void GamepadF310::LeftRumble(float rumbleness){
 	joystick->SetRumble(Joystick::kLeftRumble, rumbleness);
+}
+
+bool GamepadF310::AnyStick() {
+	return abs(LeftX()) > STICK_THRESHOLD ||
+			abs(LeftY()) > STICK_THRESHOLD ||
+			abs(RightX()) > STICK_THRESHOLD ||
+			abs(RightY()) > STICK_THRESHOLD;
+
 }
