@@ -13,6 +13,7 @@
 #include "GamepadF310.h"
 #include "ADXRS450Gyro.h"
 #include "DigitalLED.h"
+#include "Logging.h"
 #include "Math.h"
 #include "Misc.h"
 
