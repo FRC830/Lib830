@@ -22,7 +22,7 @@ void Logging::warn_change_condition(void *token, bool cond, const char *msg) {
 	else
 		return;
 	out += msg;
-	DriverStation::ReportWarning(msg);
+	DriverStation::ReportWarning(out);
 }
 
 
