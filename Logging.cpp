@@ -8,21 +8,21 @@
 #include <string>
 #include <WPILib.h>
 #include "Logging.h"
-void Logging::warn_change_condition(void *token, bool cond, const char *msg) {
-	static std::set<void*> conditions;
+
+static std::set<void*> condition_tokens;
+void Logging::warn_cond_change(void *token, bool cond, std::string msg, bool silent) {
 	std::string out;
-	if (cond && !conditions.count(token)) {
-		out += "warning on: ";
-		conditions.insert(token);
+	if (cond && !condition_tokens.count(token)) {
+		out += "[warn] ";
+		condition_tokens.insert(token);
 	}
-	else if (!cond && conditions.count(token)) {
-		out += "warning off: ";
-		conditions.erase(token);
+	else if (!cond && condition_tokens.count(token)) {
+		out += "[end warn] ";
+		condition_tokens.erase(token);
 	}
 	else
 		return;
 	out += msg;
-	DriverStation::ReportWarning(out);
+	if (!silent)
+		DriverStation::ReportWarning(out);
 }
-
-
