@@ -1,10 +1,3 @@
-/*
- * EncoderWrapper.cpp
- *
- *  Created on: Feb 23, 2016
- *      Author: ratpack
- */
-
 #include "EncoderWrapper.h"
 
 EncoderWrapper::EncoderWrapper(Encoder * enc, double upMult, double downMult) {

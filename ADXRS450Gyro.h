@@ -1,12 +1,4 @@
-/*
- * ADXRS450Gyro.h
- *
- *  Created on: Jan 18, 2015
- *      Author: ratpack
- */
-
-#ifndef UTIL_ADXRS450GYRO_H_
-#define UTIL_ADXRS450GYRO_H_
+#pragma once
 
 #include "WPILib.h"
 
@@ -49,13 +41,4 @@ private:
 	unsigned char command[4];
 	unsigned char data[4];
 	SPI * spi;
-
-	Task * update_task;
-
-	char sensor_output_1[9];
-	char sensor_output_2[9];
-	char sensor_output_3[9];
-	char sensor_output_4[9];
 };
-
-#endif /* UTIL_ADXRS450GYRO_H_ */

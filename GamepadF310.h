@@ -1,14 +1,6 @@
-/*
- * GamepadF310.h
- *
- *  Created on: Jan 5, 2015
- *      Author: ratpack
- */
+#pragma once
 
 #include "WPILib.h"
-
-#ifndef UTIL_GAMEPADF310_H_
-#define UTIL_GAMEPADF310_H_
 
 namespace F310Buttons {
 	//the gamepad buttons
@@ -68,5 +60,3 @@ protected:
 
 	Joystick * joystick;
 };
-
-#endif /* SRC_GAMEPADF310_H_ */

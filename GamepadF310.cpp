@@ -1,10 +1,3 @@
-/*
- * GamepadF310.cpp
- *
- *  Created on: Jan 5, 2015
- *      Author: ratpack
- */
-
 #include "GamepadF310.h"
 
 GamepadF310::GamepadF310(int port) {

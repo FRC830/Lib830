@@ -1,5 +1,4 @@
-#ifndef DIGITALLED_H_
-#define DIGITALLED_H_
+#pragma once
 
 #include "WPILib.h"
 
@@ -26,5 +25,3 @@ public:
 	void Set(enum rgb_color color);
 	void Set(bool red, bool green, bool blue);
 };
-
-#endif

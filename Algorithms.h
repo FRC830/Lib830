@@ -1,15 +1,7 @@
-/*
- * Math.h
- *
- *  Created on: Nov 15, 2015
- *      Author: ratpack
- */
-
-#ifndef UTIL_MATH_H_
-#define UTIL_MATH_H_
+#pragma once
 
 #include <algorithm>
-#include <stdint.h>
+#include <cstdint>
 
 typedef int8_t int8;
 typedef int16_t int16;
@@ -22,4 +14,8 @@ typedef uint64_t uint64;
 
 float accel(float current, float target, uint8_t ticks);
 
-#endif /* UTIL_MATH_H_ */
+// less-redundant std::for_each
+template <class Container, class Function>
+Function for_each(Container &c, Function f) {
+    return std::for_each(c.begin(), c.end(), f);
+}

@@ -1,12 +1,4 @@
-/*
- * Math.cpp
- *
- *  Created on: Nov 15, 2015
- *      Author: ratpack
- */
-
-#include "Math.h"
-#include <cmath>
+#include "Algorithms.h"
 
 float accel(float current, float target, uint8_t ticks) {
 	if (std::abs(target) <= 0.05) {

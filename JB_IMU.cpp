@@ -1,9 +1,4 @@
 /*
- * JB_IMU.cpp
- *
- *  Created on: Mar 29, 2015
- *      Author: ratpack
- *
  *  SPI Interface for JB Robotics IMU.
  *
  *  The IMU returns roll, pitch, yaw, rolldot, pitchdot, yawdot, accel_x, accel_y, accel_z
@@ -11,8 +6,9 @@
  *  angular velocity in 10ths of deg/sec for rolldot, pitchdot and yawdot.
  */
 
-#include "JB_IMU.h"
 #include "830utilities.h"
+#include "JB_IMU.h"
+#include "Threading.h"
 #include <cstdarg>
 
 
@@ -45,16 +41,9 @@ long compassAngleBins[BIN_SIZE] = {
 // The way this is being done I don't see what is regulating the time between passes through the while loop.
 // Perhaps this thing should suspend at the bottom of the loop and some external timer task should resume it
 // as needed... or some other approach.
-//
-// input
-//    pointer_val     int       Pointer to allocated instance of JB_IMU
-//
-// return
-//                              Never returns
-//
 
 static LockedItem<std::set<JB_IMU*> > active_jb_imus;
-int JB_IMU_UpdateFunction(int) {
+int JB_IMU_UpdateFunction(int /* unused */) {
 	while (true) {
 		LockedItemGuard g(active_jb_imus.mutex);
 		for_each(active_jb_imus.value, [](JB_IMU *jb_imu) {
@@ -98,7 +87,6 @@ long convert_sensor_to_compass(long yawSensorAngle) {
 
   unsigned int count;
   //int compassAngle;
-  long deltaSensorError, deltaCompassBin;
   bool done = false;
 
   long result = 0;
@@ -155,15 +143,6 @@ JB_IMU::JB_IMU() {
 	// Initialize roll, pitch and yaw values to 0
 	roll= pitch= yaw= 0.0;
 
-#ifdef JUNK
-	accumulated_angle = 0.0;
-	current_rate = 0.0;
-	accumulated_offset = 0.0;
-	rate_offset = 0.0;
-	update_timer = new Timer();
-	calibration_timer = new Timer();
-#endif
-
 	static bool task_started = false;
 	if (!task_started) {
 		new Task("JB_IMU_update", (FUNCPTR) &JB_IMU_UpdateFunction);
@@ -183,30 +162,9 @@ void JB_IMU::Stop() {
 }
 
 void JB_IMU::Update() {
-
-	//calibration_timer->Start();
-
-	//check_parity(command);
 	spi->Transaction(command, data, JB_DATA_SIZE); //perform transaction, get error code
-
-	//if (calibration_timer->Get() < 5.0){
-	//	return;
-	//} else if (calibration_timer->Get() < 15.0) {
-	//	Calibrate();
-	//} else {
-		UpdateData();
-	//}
-
-	//to_binary_string(data[0], sensor_output_1);
-	//to_binary_string(data[1], sensor_output_2);
-	//to_binary_string(data[2], sensor_output_3);
-	//to_binary_string(data[3], sensor_output_4);
-
-	//SmartDashboard::PutString("gyro sensor data 1", sensor_output_1);
-	//SmartDashboard::PutString("gyro sensor data 2", sensor_output_2);
-	//SmartDashboard::PutString("gyro sensor data 3", sensor_output_3);
-	//SmartDashboard::PutString("gyro sensor data 4", sensor_output_4);
 }
+
 void JB_IMU::UpdateData() {
 	long raw_roll;	// roll in units of 100ths of degrees, from -180 to 180
 	long raw_pitch;	// pitch in units of 100ths of degrees, from -180 to 180
@@ -228,29 +186,6 @@ void JB_IMU::UpdateData() {
 	yaw=   IMU_TO_DEG(adjusted_yaw);
 
 	// Apply the magnetic compensation by interpolation at 18 points on the compass
-
-
-	//int sensor_data = assemble_sensor_data(data);
-
-	//float rate = ((float) sensor_data) / 80.0;
-
-	//current_rate = rate;
-	//current_rate -= rate_offset;
-	//update_timer->Start();
-	//accumulated_angle += update_timer->Get() * current_rate;
-	//update_timer->Reset();
-}
-
-void JB_IMU::Calibrate() {
-#ifdef JUNK
-	int sensor_data = assemble_sensor_data(data);
-	float rate = ((float) sensor_data) / 80.0;
-	update_timer->Start();
-	calibration_timer->Start();
-	accumulated_offset += rate * update_timer->Get();
-	rate_offset = accumulated_offset / calibration_timer->Get();
-	update_timer->Reset();
-#endif
 }
 
 
@@ -265,61 +200,3 @@ float JB_IMU::GetPitch(){
 float JB_IMU::GetYaw(){
 	return yaw;
 }
-
-#ifdef	JUNK
-float JB_IMU::GetRate() {
-	return current_rate;
-}
-
-float JB_IMU::GetAngle() {
-	return accumulated_angle;
-}
-
-float JB_IMU::Offset() {
-	return rate_offset;
-}
-#endif
-
-void JB_IMU::Reset() {
-	data[0] = 0;
-	data[1] = 0;
-	data[2] = 0;
-	data[3] = 0;
-	//current_rate = 0.0;
-	//accumulated_angle = 0.0;
-	//rate_offset = 0.0;
-	//accumulated_offset = 0.0;
-	calibration_timer->Stop();
-	calibration_timer->Reset();
-	update_timer->Stop();
-	update_timer->Reset();
-}
-
-#ifdef	JUNK
-short JB_IMU::assemble_sensor_data(unsigned char * data){
-	//cast to short to make space for shifts
-	//the 16 bits from the gyro are a 2's complement short
-	//so we just cast it too a C++ short
-	//the data is split across the output like this (MSB first): (D = data bit, X = not data)
-	// X X X X X X D D | D D D D D D D D | D D D D D D X X | X X X X X X X X X
-	return ((short) (data[0] & FIRST_BYTE_DATA)) << 14
-		| ((short) data[1]) << 6
-		| ((short) (data[2] & THIRD_BYTE_DATA)) >> 2;
-}
-
-void JB_IMU::check_parity(unsigned char * command) {
-	int num_bits = bits(command[0]) + bits(command[1]) + bits(command[2]) + bits(command[3]);
-	if (num_bits % 2 == 0) {
-		command[3] |= PARITY_BIT;
-	}
-}
-
-int JB_IMU::bits(unsigned char val) {
-	int n = 0;
-	while (val) {
-		val &= val-1;
-		n += 1;
-	}
-	return n;
-}
-#endif

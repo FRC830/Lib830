@@ -1,12 +1,6 @@
-/*
- * ADXRS450Gyro.cpp
- *
- *  Created on: Jan 18, 2015
- *      Author: ratpack
- */
-
-#include "ADXRS450Gyro.h"
 #include "830utilities.h"
+#include "ADXRS450Gyro.h"
+#include "Threading.h"
 #include <cstdarg>
 #include <set>
 
@@ -78,17 +72,8 @@ void ADXRS450Gyro::Update() {
 	} else {
 		UpdateData();
 	}
-
-	//to_binary_string(data[0], sensor_output_1);
-	//to_binary_string(data[1], sensor_output_2);
-	//to_binary_string(data[2], sensor_output_3);
-	//to_binary_string(data[3], sensor_output_4);
-
-	//SmartDashboard::PutString("gyro sensor data 1", sensor_output_1);
-	//SmartDashboard::PutString("gyro sensor data 2", sensor_output_2);
-	//SmartDashboard::PutString("gyro sensor data 3", sensor_output_3);
-	//SmartDashboard::PutString("gyro sensor data 4", sensor_output_4);
 }
+
 void ADXRS450Gyro::UpdateData() {
 	int sensor_data = assemble_sensor_data(data);
 

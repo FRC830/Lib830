@@ -1,12 +1,7 @@
-/*
- * Logging.cpp
- *
- *  Created on: Mar 12, 2016
- *      Author: Ratpack
- */
 #include <set>
 #include <string>
 #include <WPILib.h>
+
 #include "Logging.h"
 
 static std::set<void*> condition_tokens;

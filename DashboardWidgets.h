@@ -6,8 +6,6 @@
 #include "SmartDashboard/SmartDashboard.h"
 #include "SmartDashboard/SendableChooser.h"
 
-#include "Misc.h"
-
 using std::initializer_list;
 using std::tuple;
 using std::string;
