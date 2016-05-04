@@ -1,7 +1,10 @@
+#pragma once
+
 #include <initializer_list>
 #include <string>
 #include <vector>
 
+#include "Widget.h"
 #include "SmartDashboard/SendableChooser.h"
 
 namespace Lib830 {

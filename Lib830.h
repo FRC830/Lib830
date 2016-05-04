@@ -26,5 +26,5 @@
 
 #include "logging/Logging.h"
 
-#include "utils/Algorithms.h"
-#include "utils/Threading.h"
+#include "util/Algorithms.h"
+#include "util/Threading.h"

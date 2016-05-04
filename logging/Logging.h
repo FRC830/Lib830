@@ -6,6 +6,7 @@
  */
 
 #pragma once
+
 #include <sstream>
 
 namespace Lib830 {
@@ -37,7 +38,7 @@ namespace Logging {
 #define ULOG_GEN_MSG(msg, contents) do { std::stringstream ulogss; ulogss << msg; std::string ulogmsg = ulogss.str(); contents; } while(0);
 
 // helpers to define macros that call out to Logging::* functions
-#define ULOG_CALL(func, cond, msg) ULOG_GEN_MSG(msg, ULOG_TOKEN_GUARD(Logging::func((void*)&ulogtoken, (cond), ulogmsg)))
+#define ULOG_CALL(func, cond, msg) ULOG_GEN_MSG(msg, ULOG_TOKEN_GUARD(Lib830::Logging::func((void*)&ulogtoken, (cond), ulogmsg)))
 
 /*** Warning macros ***/
 #define WARN_COND_CHANGE(cond, msg) ULOG_CALL(warn_cond_change, cond, msg)
