@@ -3,6 +3,9 @@
 #include <thread>
 #include <mutex>
 
+namespace Lib830 {
+namespace Util {
+
 // convenient variable+mutex wrapper
 
 template <typename T>
@@ -15,3 +18,4 @@ struct LockedItem {
 
 typedef std::lock_guard<std::mutex> LockedItemGuard;
 
+}}

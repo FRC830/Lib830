@@ -1,5 +1,8 @@
 #include "Algorithms.h"
 
+namespace Lib830 {
+namespace Util {
+
 float accel(float current, float target, uint8_t ticks) {
 	if (std::abs(target) <= 0.05) {
 		target = 0;
@@ -26,4 +29,4 @@ float accel(float current, float target, uint8_t ticks) {
 	}
 }
 
-
+}}

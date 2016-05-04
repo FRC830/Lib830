@@ -2,6 +2,9 @@
 
 #include "WPILib.h"
 
+namespace Lib830 {
+namespace Components {
+
 class DigitalLED {
 private:
 	DigitalOutput * red_channel;
@@ -25,3 +28,5 @@ public:
 	void Set(enum rgb_color color);
 	void Set(bool red, bool green, bool blue);
 };
+
+}}

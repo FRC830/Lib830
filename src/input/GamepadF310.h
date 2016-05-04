@@ -2,6 +2,9 @@
 
 #include "WPILib.h"
 
+namespace Lib830 {
+namespace Input {
+
 namespace F310Buttons {
 	//the gamepad buttons
 	const int A = 1;
@@ -60,3 +63,5 @@ protected:
 
 	Joystick * joystick;
 };
+
+}}

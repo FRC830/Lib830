@@ -1,62 +1,61 @@
 #include <initializer_list>
-#include <tuple>
 #include <string>
 #include <vector>
 
-#include "SmartDashboard/SmartDashboard.h"
 #include "SmartDashboard/SendableChooser.h"
 
-using std::initializer_list;
-using std::tuple;
+namespace Lib830 {
+namespace Dashboard {
+
 using std::string;
 using std::vector;
 
-template <typename T_value> class RadioList;
+template <typename T_value> class Select;
 
 template <typename T_value>
-class RadioListOption {
+class SelectOption {
 private:
-    friend class RadioList<T_value>;
+    friend class Select<T_value>;
     string name;
     T_value value;
     bool is_default;
 public:
-    RadioListOption(string name, T_value value)
+    SelectOption(string name, T_value value)
         :name(name), value(value), is_default(false)
     {}
-    RadioListOption(string name, T_value value, bool is_default)
+    SelectOption(string name, T_value value, bool is_default)
         :name(name), value(value), is_default(is_default)
     {}
 };
 
 template <typename T_value>
-class RadioList {
+class Select : public Widget {
 private:
     SendableChooser *chooser;
-    vector<RadioListOption<T_value>*> options;
+    vector<SelectOption<T_value>*> options;
     T_value selected;
     string selected_name;
 public:
-    RadioList()
+    Select()
         :selected(), selected_name()
     {
         chooser = new SendableChooser();
     }
 
-    RadioList (const initializer_list<RadioListOption<T_value> > &values)
-        :RadioList()
+    Select (const std::initializer_list<SelectOption<T_value> > &values)
+        :Select()
     {
         for (auto it = values.begin(); it != values.end(); ++it) {
             AddOption(it->name, it->value, it->is_default);
         }
     }
 
-    void SendToDashboard (string keyname) {
+    virtual void sendToDashboard (string keyname) {
         SmartDashboard::PutData(keyname, chooser);
     }
 
     void AddOption (string name, T_value value, bool is_default = false) {
-        auto opt = new RadioListOption<T_value>(name, value);
+        auto opt = new SelectOption<T_value>(name, value);
         options.push_back(opt);
         if (is_default) {
             chooser->AddDefault(name, opt);
@@ -78,7 +77,7 @@ public:
         return selected_name;
     }
 
-    ~RadioList() {
+    ~Select() {
         for (auto it = options.begin(); it != options.end(); ++it) {
             delete *it;
         }
@@ -86,10 +85,12 @@ public:
 
 private:
     void UpdateSelected() {
-        auto opt = (RadioListOption<T_value>*)chooser->GetSelected();
+        auto opt = (SelectOption<T_value>*)chooser->GetSelected();
         if (opt) {
             selected = opt->value;
             selected_name = opt->name;
         }
     }
 };
+
+}}

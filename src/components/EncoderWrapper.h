@@ -2,6 +2,9 @@
 
 #include "WPILib.h"
 
+namespace Lib830 {
+namespace Components {
+
 class EncoderWrapper {
 public:
 	EncoderWrapper(Encoder * encoder, double upMult, double downMult);
@@ -16,3 +19,5 @@ private:
 	int previousEncoderValue;
 	double adjustedValue;
 };
+
+}}

@@ -1,5 +1,8 @@
 #include "EncoderWrapper.h"
 
+namespace Lib830 {
+namespace Components {
+
 EncoderWrapper::EncoderWrapper(Encoder * enc, double upMult, double downMult) {
 	encoder = enc;
 	previousEncoderValue = enc->Get();
@@ -33,3 +36,5 @@ double EncoderWrapper::value(){
 int EncoderWrapper::rawValue(){
 	return encoder->Get();
 }
+
+}}

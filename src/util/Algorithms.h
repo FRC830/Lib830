@@ -3,6 +3,9 @@
 #include <algorithm>
 #include <cstdint>
 
+namespace Lib830 {
+namespace Util {
+
 typedef int8_t int8;
 typedef int16_t int16;
 typedef int32_t int32;
@@ -19,3 +22,5 @@ template <class Container, class Function>
 Function for_each(Container &c, Function f) {
     return std::for_each(c.begin(), c.end(), f);
 }
+
+}}

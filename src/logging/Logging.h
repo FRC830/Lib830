@@ -8,6 +8,7 @@
 #pragma once
 #include <sstream>
 
+namespace Lib830 {
 namespace Logging {
 	inline std::string to_string(const std::ostream &out) {
 		std::stringstream ss;
@@ -21,7 +22,7 @@ namespace Logging {
 	inline void warn_cond_off(void *token, bool cond, std::string msg) {
 		warn_cond_change(token, cond, msg, cond);
 	}
-}
+}}
 
 // wraps "contents" in a new scope and defines a useless unique variable, "ulogtoken"
 // This means that "&ulogtoken" is unique and can be used to identify invocations of various macros

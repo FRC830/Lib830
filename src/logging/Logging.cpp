@@ -4,6 +4,9 @@
 
 #include "Logging.h"
 
+namespace Lib830 {
+namespace Logging {
+
 static std::set<void*> condition_tokens;
 void Logging::warn_cond_change(void *token, bool cond, std::string msg, bool silent) {
 	std::string out;
@@ -21,3 +24,5 @@ void Logging::warn_cond_change(void *token, bool cond, std::string msg, bool sil
 	if (!silent)
 		DriverStation::ReportWarning(out);
 }
+
+}}

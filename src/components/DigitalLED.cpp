@@ -1,5 +1,8 @@
 #include "DigitalLED.h"
 
+namespace Lib830 {
+namespace Components {
+
 DigitalLED::DigitalLED(DigitalOutput * red, DigitalOutput * green, DigitalOutput * blue) {
 	red_channel = red;
 	green_channel = green;
@@ -21,3 +24,5 @@ void DigitalLED::Set(bool red, bool green, bool blue){
 	green_channel->Set(green);
 	blue_channel->Set(blue);
 }
+
+}}

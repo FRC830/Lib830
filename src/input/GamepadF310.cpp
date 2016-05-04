@@ -1,5 +1,8 @@
 #include "GamepadF310.h"
 
+namespace Lib830 {
+namespace Input {
+
 GamepadF310::GamepadF310(int port) {
 	joystick = new Joystick(port);
 	button_state = std::vector<bool>(F310Buttons::Max + 1, false);
@@ -113,3 +116,5 @@ bool GamepadF310::AnyStick() {
 			abs(RightY()) > STICK_THRESHOLD;
 
 }
+
+}}
