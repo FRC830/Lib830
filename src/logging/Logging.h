@@ -10,11 +10,13 @@
 
 namespace Lib830 {
 namespace Logging {
+
 	inline std::string to_string(const std::ostream &out) {
 		std::stringstream ss;
 		ss << out.rdbuf();
 		return ss.str();
 	}
+
 	void warn_cond_change(void *token, bool cond, std::string msg, bool silent = false);
 	inline void warn_cond_on(void *token, bool cond, std::string msg) {
 		warn_cond_change(token, cond, msg, !cond);
@@ -22,6 +24,7 @@ namespace Logging {
 	inline void warn_cond_off(void *token, bool cond, std::string msg) {
 		warn_cond_change(token, cond, msg, cond);
 	}
+
 }}
 
 // wraps "contents" in a new scope and defines a useless unique variable, "ulogtoken"

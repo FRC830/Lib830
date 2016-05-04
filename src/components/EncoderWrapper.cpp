@@ -1,40 +1,39 @@
 #include "EncoderWrapper.h"
 
 namespace Lib830 {
-namespace Components {
 
-EncoderWrapper::EncoderWrapper(Encoder * enc, double upMult, double downMult) {
-	encoder = enc;
-	previousEncoderValue = enc->Get();
-	upMultiplier = upMult;
-	downMultiplier = downMult;
-	adjustedValue = previousEncoderValue;
-}
-
-void EncoderWrapper::update(){
-	int encValue = encoder->Get();
-	int diff = encValue - previousEncoderValue;
-	if(diff > 0){
-		adjustedValue += diff * upMultiplier;
-	}
-	else if(diff < 0){
-		adjustedValue -= diff * downMultiplier;
+	EncoderWrapper::EncoderWrapper(Encoder * enc, double upMult, double downMult) {
+		encoder = enc;
+		previousEncoderValue = enc->Get();
+		upMultiplier = upMult;
+		downMultiplier = downMult;
+		adjustedValue = previousEncoderValue;
 	}
 
-	previousEncoderValue = encValue;
-}
+	void EncoderWrapper::update(){
+		int encValue = encoder->Get();
+		int diff = encValue - previousEncoderValue;
+		if(diff > 0){
+			adjustedValue += diff * upMultiplier;
+		}
+		else if(diff < 0){
+			adjustedValue -= diff * downMultiplier;
+		}
 
-void EncoderWrapper::reset(){
-	adjustedValue = 0;
-	encoder->Reset();
-}
+		previousEncoderValue = encValue;
+	}
 
-double EncoderWrapper::value(){
-	return adjustedValue;
-}
+	void EncoderWrapper::reset(){
+		adjustedValue = 0;
+		encoder->Reset();
+	}
 
-int EncoderWrapper::rawValue(){
-	return encoder->Get();
-}
+	double EncoderWrapper::value(){
+		return adjustedValue;
+	}
 
-}}
+	int EncoderWrapper::rawValue(){
+		return encoder->Get();
+	}
+
+}
