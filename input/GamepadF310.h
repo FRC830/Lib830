@@ -1,66 +1,54 @@
 #pragma once
 
 #include "WPILib.h"
+#include "Gamepad.h"
 
 namespace Lib830 {
 
-	namespace F310Buttons {
-		//the gamepad buttons
-		const int A = 1;
-		const int B = 2;
-		const int X = 3;
-		const int Y = 4;
-		const int LeftBumper = 5;
-		const int RightBumper = 6;
-		const int Back = 7;
-		const int Start = 8;
-		const int LeftStick = 9;
-		const int RightStick = 10;
-		const int DPadUp = 11;
-		const int DPadDown = 12;
-		const int DPadLeft = 13;
-		const int DPadRight = 14;
-		const int Min = A;
-		const int Max = DPadRight;
-	}
-
-	class GamepadF310 {
+	class GamepadF310 : public Gamepad {
 	public:
-		static constexpr float STICK_THRESHOLD = 0.01;
+		GamepadF310() = delete;
 		GamepadF310(int port);
 		virtual ~GamepadF310();
+
 		float LeftX();
 		float LeftY();
 		float LeftTrigger();
 		float RightTrigger();
 		float RightX();
 		float RightY();
-		float DPadX(); //only returns +1, 0, or -1
-		float DPadY(); //only returns +1, 0, or -1
 
-		void LeftRumble(float rumbleness); //doesn't actually do anything on our controllers :(
-		void RightRumble(float rumbleness); //ditto
+		int DPadX(); // only returns +1, 0, or -1
+		int DPadY(); // only returns +1, 0, or -1
+		inline bool DPadUp() { return DPadY() == 1 && DPadX() == 0; }
+		inline bool DPadDown() { return DPadY() == -1 && DPadX() == 0; }
+		inline bool DPadLeft() { return DPadY() == 0 && DPadX() == -1; }
+		inline bool DPadRight() { return DPadY() == 0 && DPadX() == 1; }
 
-		struct ButtonEvent {
-			bool pressed;
-			int button;
+		bool AnyStickPressed();
+		bool AnyTriggerPressed();
+
+		enum Button {
+			BUTTON_A = 1,
+			BUTTON_B,
+			BUTTON_X,
+			BUTTON_Y,
+			BUTTON_LEFT_BUMPER,
+			BUTTON_RIGHT_BUMPER,
+			BUTTON_BACK,
+			BUTTON_START,
+			BUTTON_LEFT_STICK,
+			BUTTON_RIGHT_STICK,
 		};
-		bool ButtonState(int buttonNum);
-		bool GetButtonEvent(ButtonEvent *e);
+		enum Axis {
+			AXIS_LEFT_X = 0,
+			AXIS_LEFT_Y,
+			AXIS_LEFT_TRIGGER,
+			AXIS_RIGHT_TRIGGER,
+			AXIS_RIGHT_X,
+			AXIS_RIGHT_Y,
+		};
 
-		// whether either left or right x/y are above STICK_THRESHOLD
-		bool AnyStick();
-
-	protected:
-		std::vector<bool> button_state;
-		static const int LEFT_X_AXIS_NUM = 0;
-		static const int LEFT_Y_AXIS_NUM = 1;
-		static const int LEFT_TRIGGER_NUM = 2;
-		static const int RIGHT_TRIGGER_NUM = 3;
-		static const int RIGHT_X_AXIS_NUM = 4;
-		static const int RIGHT_Y_AXIS_NUM = 5;
-
-		Joystick * joystick;
 	};
 
 }

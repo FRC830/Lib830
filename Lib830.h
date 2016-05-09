@@ -16,6 +16,7 @@
 	#warning "Lib830 has not been tested with non-GCC compilers"
 #endif
 
+#include <cmath>
 #include <cstdint>
 
 #include "components/DigitalLED.h"
