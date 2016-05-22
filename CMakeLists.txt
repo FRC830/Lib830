@@ -8,8 +8,6 @@ set(LIB830_SRCS
     input/Gamepad.cpp
     input/GamepadF310.cpp
 
-    lib/LCameraServer.cpp
-
     logging/Logging.cpp
 
     util/Algorithms.cpp
