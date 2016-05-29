@@ -33,16 +33,14 @@ namespace Lib830 {
 	template <typename T_value>
 	class SelectWidget : public Widget {
 	private:
-		SendableChooser *chooser;
+		SendableChooser chooser;
 		vector<SelectWidgetOption<T_value>*> options;
 		T_value selected;
 		string selected_name;
 	public:
 		SelectWidget()
-			:selected(), selected_name()
-		{
-			chooser = new SendableChooser();
-		}
+			:selected(), selected_name("")
+		{}
 
 		SelectWidget (const std::initializer_list<SelectWidgetOption<T_value> > &values)
 			:SelectWidget()
@@ -53,19 +51,19 @@ namespace Lib830 {
 		}
 
 		virtual void sendToDashboard (string keyname) {
-			SmartDashboard::PutData(keyname, chooser);
+			SmartDashboard::PutData(keyname, &chooser);
 		}
 
 		void AddOption (string name, T_value value, bool is_default = false) {
 			auto opt = new SelectWidgetOption<T_value>(name, value);
 			options.push_back(opt);
 			if (is_default) {
-				chooser->AddDefault(name, opt);
+				chooser.AddDefault(name, opt);
 				selected_name = name;
 				selected = value;
 			}
 			else {
-				chooser->AddObject(name, opt);
+				chooser.AddObject(name, opt);
 			}
 		}
 
@@ -87,7 +85,7 @@ namespace Lib830 {
 
 	private:
 		void UpdateSelected() {
-			auto opt = (SelectWidgetOption<T_value>*)chooser->GetSelected();
+			auto opt = (SelectWidgetOption<T_value>*)chooser.GetSelected();
 			if (opt) {
 				selected = opt->value;
 				selected_name = opt->name;

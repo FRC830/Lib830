@@ -11,6 +11,7 @@ set(LIB830_SRCS
     logging/Logging.cpp
 
     util/Algorithms.cpp
+    util/Version.cpp
 )
 add_library(830 STATIC ${LIB830_SRCS})
 target_link_libraries(830 wpi)
