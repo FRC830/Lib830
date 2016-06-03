@@ -2,8 +2,9 @@ set(LIB830_SRCS
     components/DigitalLED.cpp
     components/EncoderWrapper.cpp
 
-    dashboard/GyroWidget.cpp
     dashboard/SelectWidget.cpp
+
+    extensions/Gyro.cpp
 
     input/Gamepad.cpp
     input/GamepadF310.cpp

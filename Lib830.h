@@ -21,8 +21,9 @@
 
 #include "components/DigitalLED.h"
 
-#include "dashboard/GyroWidget.h"
 #include "dashboard/SelectWidget.h"
+
+#include "extensions/Gyro.h"
 
 #include "input/GamepadF310.h"
 

@@ -2,17 +2,17 @@
 
 #include <string>
 
-#include "SmartDashboard/NamedSendable.h"
-#include "Widget.h"
+class AnalogGyro;
+class ADXRS450_Gyro;
 
 namespace Lib830 {
 
 	template <class GyroType>
-	class GyroWidget : public GyroType {
+	class Gyro : public GyroType {
 	public:
 		// pass all constructor arguments to a GyroType constructor
 		template<class... Args>
-		GyroWidget(Args&&... args) : GyroType(args...) {}
+		Gyro(Args&&... args) : GyroType(args...) {}
 
 		void UpdateTable() {
 			auto table = GyroType::GetTable();
@@ -26,5 +26,8 @@ namespace Lib830 {
 			}
 		}
 	};
+
+	typedef Gyro<AnalogGyro> AnalogGyro;
+	typedef Gyro<ADXRS450_Gyro> ADXRS450_Gyro;
 
 }
