@@ -1,6 +1,8 @@
 #pragma once
 
+#include <atomic>
 #include <string>
+#include <thread>
 
 class AnalogGyro;
 class ADXRS450_Gyro;
@@ -9,10 +11,12 @@ namespace Lib830 {
 
 	template <class GyroType>
 	class Gyro : public GyroType {
+	private:
+		std::atomic<bool> calibrating;
 	public:
 		// pass all constructor arguments to a GyroType constructor
 		template<class... Args>
-		Gyro(Args&&... args) : GyroType(args...) {}
+		Gyro(Args&&... args) : GyroType(args...), calibrating(false) {}
 
 		void UpdateTable() {
 			auto table = GyroType::GetTable();
@@ -22,6 +26,15 @@ namespace Lib830 {
 				if (table->GetBoolean("reset", false)) {
 					GyroType::Reset();
 					table->PutBoolean("reset", false);
+				}
+				if (!calibrating && table->GetBoolean("calibrate", false)) {
+					table->PutBoolean("calibrate", true);
+					calibrating = true;
+					std::thread([&]{
+						GyroType::Calibrate();
+						calibrating = false;
+						GyroType::GetTable()->PutBoolean("calibrate", false);
+					}).detach();
 				}
 			}
 		}
