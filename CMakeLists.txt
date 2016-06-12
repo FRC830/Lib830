@@ -12,7 +12,10 @@ set(LIB830_SRCS
     logging/Logging.cpp
 
     util/Algorithms.cpp
+    util/ID.cpp
+    util/Threading.cpp
     util/Version.cpp
 )
 add_library(830 STATIC ${LIB830_SRCS})
 target_link_libraries(830 wpi)
+target_compile_definitions(830 PRIVATE "-DCMAKE_PROJECT_NAME=\"${PROJECT_NAME}\"")

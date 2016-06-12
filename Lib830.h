@@ -30,5 +30,6 @@
 #include "logging/Logging.h"
 
 #include "util/Algorithms.h"
+#include "util/ID.h"
 #include "util/Threading.h"
 #include "util/Version.h"
