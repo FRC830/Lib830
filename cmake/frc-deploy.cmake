@@ -62,6 +62,12 @@ if (NOT TARGET)
 endif()
 log("Connected to ${TARGET}")
 
+run_ssh("Deleting robot code"
+    ssh
+    ${USERNAME}@${TARGET}
+    "rm -f ${DEPLOY_DIR}/FRCUserProgram"
+)
+
 run_ssh("Copying over robot code"
     scp
     ${ROBOT_EXECUTABLE}
