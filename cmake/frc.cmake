@@ -5,9 +5,12 @@ set(WPILIB_HOME $ENV{HOME}/wpilib/cpp/current)
 include_directories(${WPILIB_HOME}/include)
 link_directories(${WPILIB_HOME}/lib)
 
-function(add_frc_executable _NAME)
+function(add_frc_executable NAME)
     add_executable(${ARGV})
-    target_link_libraries(${_NAME} libwpi.so)
+    target_link_libraries(${NAME} libwpi.so)
+    add_custom_command(TARGET ${NAME} POST_BUILD
+        COMMAND gzip -kf $<TARGET_FILE:${NAME}>
+        COMMENT "Compressing executable")
 endfunction()
 
 function(add_frc_deploy TARGET_NAME TEAM_NUMBER ROBOT_EXECUTABLE)

@@ -21,7 +21,12 @@ math(EXPR TEAM_NUMBER_LOW "${TEAM_NUMBER} % 100")
 set(USERNAME lvuser)
 set(DEPLOY_DIR /home/lvuser)
 set(TMP_SSH_HOSTS tmp_ssh_hosts.txt)
-set(SSH_FLAGS -o StrictHostKeyChecking=no -o UserKnownHostsFile=${TMP_SSH_HOSTS})
+set(SSH_FLAGS
+    -C
+    -o StrictHostKeyChecking=no
+    -o UserKnownHostsFile=${TMP_SSH_HOSTS}
+    -o LogLevel=error
+)
 file(WRITE ${TMP_SSH_HOSTS} "")
 
 function(log MESSAGE)
@@ -68,10 +73,15 @@ run_ssh("Deleting robot code"
     "rm -f ${DEPLOY_DIR}/FRCUserProgram"
 )
 
-run_ssh("Copying over robot code"
+run_ssh("Copying over robot code (compressed)"
     scp
-    ${ROBOT_EXECUTABLE}
-    ${USERNAME}@${TARGET}:${DEPLOY_DIR}/FRCUserProgram
+    ${ROBOT_EXECUTABLE}.gz
+    ${USERNAME}@${TARGET}:${DEPLOY_DIR}/FRCUserProgram.gz
+)
+run_ssh("Decompressing"
+    ssh
+    ${USERNAME}@${TARGET}
+    "gunzip ${DEPLOY_DIR}/FRCUserProgram.gz"
 )
 run_ssh("Stopping netconsole-host"
     ssh
