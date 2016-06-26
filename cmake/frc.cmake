@@ -25,6 +25,7 @@ function(add_frc_deploy TARGET_NAME TEAM_NUMBER ROBOT_EXECUTABLE)
                 -D SSH_EXECUTABLE=${SSH_EXECUTABLE}
                 -D SCP_EXECUTABLE=${SCP_EXECUTABLE}
                 -D WPILIB_HOME=${WPILIB_HOME}
+                -D FRC_PREFER_TARGET=${FRC_PREFER_TARGET}
                 -P ${FRC_DEPLOY_SCRIPT}
             DEPENDS ${PROJECT_NAME}
             COMMENT "Deploying"

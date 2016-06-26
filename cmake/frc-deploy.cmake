@@ -18,6 +18,23 @@ endif()
 math(EXPR TEAM_NUMBER_HIGH "${TEAM_NUMBER} / 100")
 math(EXPR TEAM_NUMBER_LOW "${TEAM_NUMBER} % 100")
 
+# Use FRC_PREFER_TARGET to try a specific target first
+# Can be "mdns", "usb", "static", or an address
+string(TOLOWER ${FRC_PREFER_TARGET} FRC_PREFER_TARGET)
+set(target_mdns "roboRIO-${TEAM_NUMBER}-FRC.local")
+set(target_usb "172.22.11.2")
+set(target_static "10.${TEAM_NUMBER_HIGH}.${TEAM_NUMBER_LOW}.2")
+set(_target_preferred "${target_${FRC_PREFER_TARGET}}")
+set(TRY_TARGETS)
+if(NOT("${_target_preferred}" STREQUAL ""))
+    list(APPEND TRY_TARGETS ${_target_preferred})
+elseif(NOT("${FRC_PREFER_TARGET}" STREQUAL ""))
+    # Use FRC_PREFER_TARGET as an address
+    list(APPEND TRY_TARGETS ${FRC_PREFER_TARGET})
+endif()
+list(APPEND TRY_TARGETS ${target_mdns} ${target_usb} ${target_static})
+list(REMOVE_DUPLICATES TRY_TARGETS)
+
 set(USERNAME lvuser)
 set(DEPLOY_DIR /home/lvuser)
 set(TMP_SSH_HOSTS tmp_ssh_hosts.txt)
@@ -51,13 +68,13 @@ function(run_ssh MESSAGE EXE)
 endfunction()
 
 set(TARGET)
-foreach(CUR_TARGET "roboRIO-${TEAM_NUMBER}-FRC.local" "172.22.11.2" "10.${TEAM_NUMBER_HIGH}.${TEAM_NUMBER_LOW}.2")
+foreach(CUR_TARGET ${TRY_TARGETS})
     log("Trying ${CUR_TARGET}")
     execute_process(COMMAND ${SSH_EXECUTABLE} ${SSH_FLAGS} ${USERNAME}@${CUR_TARGET} true
         RESULT_VARIABLE SSH_RESULT
         TIMEOUT 5
     )
-    if (${SSH_RESULT} EQUAL 0)
+    if ("${SSH_RESULT}" EQUAL 0)
         set(TARGET ${CUR_TARGET})
         break()
     endif()
