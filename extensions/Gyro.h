@@ -18,7 +18,7 @@ namespace Lib830 {
 		template<class... Args>
 		Gyro(Args&&... args) : GyroType(args...), calibrating(false) {}
 
-		void UpdateTable() {
+		void UpdateTable() override {
 			auto table = GyroType::GetTable();
 			if (table != nullptr) {
 				table->PutNumber("angle", GyroType::GetAngle());
@@ -28,14 +28,20 @@ namespace Lib830 {
 					table->PutBoolean("reset", false);
 				}
 				if (!calibrating && table->GetBoolean("calibrate", false)) {
-					table->PutBoolean("calibrate", true);
-					calibrating = true;
-					std::thread([&]{
-						GyroType::Calibrate();
-						calibrating = false;
-						GyroType::GetTable()->PutBoolean("calibrate", false);
-					}).detach();
+					Calibrate();
 				}
+			}
+		}
+
+		void Calibrate() override {
+			if (!calibrating) {
+				GyroType::GetTable()->PutBoolean("calibrate", true);
+				calibrating = true;
+				std::thread([&]{
+					GyroType::Calibrate();
+					calibrating = false;
+					GyroType::GetTable()->PutBoolean("calibrate", false);
+				}).detach();
 			}
 		}
 	};
