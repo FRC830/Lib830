@@ -1,7 +1,8 @@
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_LIST_DIR}/arm-toolchain.cmake)
 set(FRC_DEPLOY_SCRIPT ${CMAKE_CURRENT_LIST_DIR}/frc-deploy.cmake)
 
-set(WPILIB_HOME $ENV{HOME}/wpilib/cpp/current)
+set(WPILIB_HOME "$ENV{HOME}/wpilib/cpp/current")
+string(REGEX REPLACE "\\\\" "/" WPILIB_HOME ${WPILIB_HOME})
 include_directories(${WPILIB_HOME}/include)
 link_directories(${WPILIB_HOME}/lib)
 
