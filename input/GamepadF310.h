@@ -28,6 +28,9 @@ namespace Lib830 {
 		bool AnyStickPressed();
 		bool AnyTriggerPressed();
 
+		void RumbleLeft(float rumble);
+		void RumbleRight(float rumble); 
+
 		enum Button {
 			BUTTON_A = 1,
 			BUTTON_B,

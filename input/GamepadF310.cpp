@@ -76,4 +76,11 @@ namespace Lib830 {
 		return fabs(LeftTrigger()) > AXIS_THRESHOLD ||
 				fabs(RightTrigger()) > AXIS_THRESHOLD;
 	}
+	void GamepadF310::RumbleLeft(float rumble) {
+		joystick.SetRumble(Joystick::kLeftRumble,rumble);
+	}
+
+	void GamepadF310::RumbleRight(float rumble) {
+		joystick.SetRumble(Joystick::kRightRumble,rumble);
+	}
 }
