@@ -25,7 +25,7 @@ math(EXPR TEAM_NUMBER_LOW "${TEAM_NUMBER} % 100")
 # Use FRC_PREFER_TARGET to try a specific target first
 # Can be "mdns", "usb", "static", or an address
 string(TOLOWER "${FRC_PREFER_TARGET}" FRC_PREFER_TARGET)
-set(target_mdns "roboRIO-${TEAM_NUMBER}-FRC")
+set(target_mdns "roboRIO-${TEAM_NUMBER}-FRC.local")
 set(target_usb "172.22.11.2")
 set(target_static "10.${TEAM_NUMBER_HIGH}.${TEAM_NUMBER_LOW}.2")
 set(_target_preferred "${target_${FRC_PREFER_TARGET}}")
