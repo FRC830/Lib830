@@ -24,6 +24,12 @@ math(EXPR TEAM_NUMBER_LOW "${TEAM_NUMBER} % 100")
 
 # Use FRC_PREFER_TARGET to try a specific target first
 # Can be "mdns", "usb", "static", or an address
+
+# Use FRC_FORCE_TARGET to only try a specific target (will retry three times)
+# This will override FRC_PREFER_TARGET
+if(FRC_FORCE_TARGET)
+    set(FRC_PREFER_TARGET ${FRC_FORCE_TARGET})
+endif()
 string(TOLOWER "${FRC_PREFER_TARGET}" FRC_PREFER_TARGET)
 set(target_mdns "roboRIO-${TEAM_NUMBER}-FRC.local")
 set(target_usb "172.22.11.2")
@@ -36,8 +42,16 @@ elseif(NOT("${FRC_PREFER_TARGET}" STREQUAL ""))
     # Use FRC_PREFER_TARGET as an address
     list(APPEND TRY_TARGETS ${FRC_PREFER_TARGET})
 endif()
-list(APPEND TRY_TARGETS ${target_mdns} ${target_usb} ${target_static})
-list(REMOVE_DUPLICATES TRY_TARGETS)
+if(FRC_FORCE_TARGET)
+    # add 2 more copies of the preferred target to the list of targets
+    list(GET TRY_TARGETS 0 _target)
+    foreach(i RANGE 1)
+        list(APPEND TRY_TARGETS ${_target})
+    endforeach()
+else()
+    list(APPEND TRY_TARGETS ${target_mdns} ${target_usb} ${target_static})
+    list(REMOVE_DUPLICATES TRY_TARGETS)
+endif()
 
 set(USERNAME lvuser)
 set(DEPLOY_DIR /home/lvuser)
