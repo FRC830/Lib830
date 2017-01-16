@@ -33,7 +33,7 @@ namespace Lib830 {
 	template <typename T_value>
 	class SelectWidget : public Widget {
 	private:
-		SendableChooser chooser;
+		SendableChooser<SelectWidgetOption<T_value>> chooser;
 		vector<SelectWidgetOption<T_value>*> options;
 		T_value selected;
 		string selected_name;
