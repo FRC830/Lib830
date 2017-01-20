@@ -3,10 +3,10 @@
 #include <atomic>
 #include <string>
 #include <thread>
-
-class AnalogGyro;
-class ADXRS450_Gyro;
-
+namespace frc {
+	class AnalogGyro;
+	class ADXRS450_Gyro;
+}
 namespace Lib830 {
 
 	template <class GyroType>
@@ -46,7 +46,7 @@ namespace Lib830 {
 		}
 	};
 
-	typedef Gyro<AnalogGyro> AnalogGyro;
-	typedef Gyro<ADXRS450_Gyro> ADXRS450_Gyro;
+	typedef Gyro<frc::AnalogGyro> AnalogGyro;
+	typedef Gyro<frc::ADXRS450_Gyro> ADXRS450_Gyro;
 
 }
