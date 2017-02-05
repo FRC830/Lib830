@@ -9,23 +9,25 @@ namespace Lib830 {
 		DigitalOutput * red_channel;
 		DigitalOutput * green_channel;
 		DigitalOutput * blue_channel;
-	public:
+		Timer timer;
+		void Enable();
 
-		enum rgb_color {
-			kRed = 1,
-			kGreen = 1 << 1,
-			kBlue = 1 << 2,
-			kYellow = kRed | kGreen,
-			kMagenta = kRed | kBlue,
-			kCyan = kGreen | kBlue,
-			kWhite = kRed | kBlue | kGreen,
-			kOff = 0
+	public:
+		struct Color { //RGB
+			double red;
+			double green;
+			double blue;
 		};
+
 
 		DigitalLED(DigitalOutput * red, DigitalOutput * green, DigitalOutput * blue);
 		DigitalLED(int red, int green, int blue);
-		void Set(enum rgb_color color);
-		void Set(bool red, bool green, bool blue);
+
+		void Set(double red, double green, double blue);
+		void Set(Color color);
+		void Disable();
+		void Alternate(Color color_1, Color color_2);
+		void SetAllianceColor();
 	};
 
 }
