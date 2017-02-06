@@ -26,7 +26,6 @@ namespace Lib830 {
 
 
 	void DigitalLED::Set( double red, double green, double blue){
-		std::cout << red << " " << green << " " << blue << std::endl;
 		red_channel->UpdateDutyCycle(red);
 		green_channel->UpdateDutyCycle(green);
 		blue_channel->UpdateDutyCycle(blue);
