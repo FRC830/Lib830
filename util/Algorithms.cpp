@@ -1,4 +1,5 @@
 #include "Algorithms.h"
+#include <cmath>
 
 namespace Lib830 {
 
