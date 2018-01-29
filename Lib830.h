@@ -26,6 +26,7 @@
 #include "extensions/Gyro.h"
 
 #include "input/GamepadF310.h"
+#include "input/Toggle.h"
 
 #include "logging/Logging.h"
 
@@ -33,3 +34,4 @@
 #include "util/ID.h"
 #include "util/Threading.h"
 #include "util/Version.h"
+
