@@ -12,6 +12,8 @@ namespace Lib830 {
 		Timer timer;
 		void Enable();
 
+		static constexpr float pi = 3.141592;
+
 	public:
 		struct Color { //RGB
 			double red;
@@ -28,6 +30,7 @@ namespace Lib830 {
 		void Disable();
 		void Alternate(Color color_1, Color color_2);
 		void SetAllianceColor();
+		void RainbowFade(float fade_duration);
 	};
 
 }
