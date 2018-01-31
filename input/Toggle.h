@@ -13,7 +13,7 @@ private:
 	bool prev_state;
 	bool toggle_state;
 public:
-	Toggle(bool toggle_state = false):prev_state(false), toggle_state(toggle_state){}
+	explicit Toggle(bool toggle_state = false):prev_state(false), toggle_state(toggle_state){}
 	bool toggle (bool button_state) {
 		if (button_state && prev_state != button_state) {
 			toggle_state = !toggle_state;
@@ -22,8 +22,9 @@ public:
 		return toggle_state;
 	}
 
-	void Set(bool state) {
+	bool operator= (const bool state) {
 		toggle_state = state;
+		return toggle_state;
 	}
 
 	operator bool () {
