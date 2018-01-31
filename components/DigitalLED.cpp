@@ -1,6 +1,7 @@
 #include "DigitalLED.h"
 #include "DigitalOutput.h"
 #include "Timer.h"
+#include <cmath>
 
 namespace Lib830 {
 
@@ -62,5 +63,16 @@ namespace Lib830 {
 			Set(0,0,0);
 		}
 	}
+
+	void DigitalLED::RainbowFade(float fade_duration) {
+		timer.Start();
+		double x = timer.Get() *(pi/(fade_duration/2));
+		double r = 0.5*sin(x) + 0.5;
+		double g = (0.5*sin(x - ((2*pi)/3))) + 0.5;
+		double b =  (0.5*sin(x - ((4*pi)/3))) + 0.5;
+		Set(r,g,b);
+	}
+
+
 
 }
