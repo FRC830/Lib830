@@ -73,6 +73,15 @@ namespace Lib830 {
 		Set(r,g,b);
 	}
 
-
-
+	DigitalLED::Color DigitalLED::hex2color(int hex) {
+		Color color;
+		color.red = ((hex &0xff0000) >> 16 )/255.0;
+		color.green = ((hex &0x00ff00) >> 8)/255.0;
+		color.blue = ((hex &0x0000ff))/255.0;
+		return color;
+	}
+	void DigitalLED::Set(int hex) {
+		Color color = hex2color(hex);
+		Set(color);
+	}
 }
