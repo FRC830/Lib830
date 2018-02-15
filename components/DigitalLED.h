@@ -57,6 +57,7 @@ namespace Lib830 {
 		void RainbowFade(float fade_duration);
 
 
+
 		enum class_colors {
 		AliceBlue=0xF0F8FF,
 		AntiqueWhite=0xFAEBD7,

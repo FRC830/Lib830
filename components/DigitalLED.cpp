@@ -30,6 +30,10 @@ namespace Lib830 {
 		red_channel->UpdateDutyCycle(red);
 		green_channel->UpdateDutyCycle(green);
 		blue_channel->UpdateDutyCycle(blue);
+		SmartDashboard::PutNumber("red", red_channel->Get());
+		SmartDashboard::PutNumber("green", green_channel->Get());
+		SmartDashboard::PutNumber("blue", blue_channel->Get());
+
 	}
 
 	void DigitalLED::Set(Color color) {
