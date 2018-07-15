@@ -32,6 +32,7 @@
 
 #include "util/Algorithms.h"
 #include "util/ID.h"
+#include "util/PIDWrapper.h"
 #include "util/Threading.h"
 #include "util/Version.h"
 
