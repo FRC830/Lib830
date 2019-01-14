@@ -1,12 +1,12 @@
 #pragma once
 
-#include "WPILib.h"
+#include "frc/Encoder.h"
 
 namespace Lib830 {
 
 	class EncoderWrapper {
 	public:
-		EncoderWrapper(Encoder * encoder, double upMult, double downMult);
+		EncoderWrapper(frc::Encoder * encoder, double upMult, double downMult);
 		void reset();
 		void update();
 		double value();
@@ -14,7 +14,7 @@ namespace Lib830 {
 	private:
 		double upMultiplier;
 		double downMultiplier;
-		Encoder * encoder;
+		frc::Encoder * encoder;
 		int previousEncoderValue;
 		double adjustedValue;
 	};

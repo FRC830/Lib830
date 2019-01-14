@@ -1,5 +1,7 @@
 #include "EncoderWrapper.h"
 
+using frc::Encoder;
+
 namespace Lib830 {
 
 	EncoderWrapper::EncoderWrapper(Encoder * enc, double upMult, double downMult) {

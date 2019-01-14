@@ -1,7 +1,13 @@
-#include "DigitalLED.h"
-#include "DigitalOutput.h"
-#include "Timer.h"
 #include <cmath>
+#include "frc/DigitalOutput.h"
+#include "frc/DriverStation.h"
+#include "frc/smartdashboard/SmartDashboard.h"
+#include "frc/Timer.h"
+#include "DigitalLED.h"
+
+using frc::DriverStation;
+using frc::DigitalOutput;
+using frc::SmartDashboard;
 
 namespace Lib830 {
 

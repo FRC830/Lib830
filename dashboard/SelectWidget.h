@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "Widget.h"
-#include "SmartDashboard/SendableChooser.h"
+#include "frc/smartdashboard/SendableChooser.h"
 
 namespace Lib830 {
 
@@ -33,7 +33,7 @@ namespace Lib830 {
 	template <typename T_value>
 	class SelectWidget : public Widget {
 	private:
-		SendableChooser<SelectWidgetOption<T_value>> chooser;
+		frc::SendableChooser<SelectWidgetOption<T_value>> chooser;
 		vector<SelectWidgetOption<T_value>*> options;
 		T_value selected;
 		string selected_name;
@@ -51,7 +51,7 @@ namespace Lib830 {
 		}
 
 		virtual void sendToDashboard (string keyname) {
-			SmartDashboard::PutData(keyname, &chooser);
+			frc::SmartDashboard::PutData(keyname, &chooser);
 		}
 
 		void AddOption (string name, T_value value, bool is_default = false) {

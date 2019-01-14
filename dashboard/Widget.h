@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "SmartDashboard/SmartDashboard.h"
+#include "frc/smartdashboard/SmartDashboard.h"
 
 namespace Lib830 {
 

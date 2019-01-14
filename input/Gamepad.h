@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "WPILib.h"
+#include "frc/Joystick.h"
 
 namespace Lib830 {
 
@@ -29,7 +29,7 @@ namespace Lib830 {
 		};
 		bool GetEvent(Event &event);
 	protected:
-		Joystick joystick;
+		frc::Joystick joystick;
 		std::vector<bool> button_state;
 		std::vector<float> axis_state;
 		std::vector<int> pov_state;

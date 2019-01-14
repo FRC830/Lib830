@@ -1,6 +1,5 @@
 #pragma once
 
-#include "WPILib.h"
 #include "Gamepad.h"
 
 namespace Lib830 {

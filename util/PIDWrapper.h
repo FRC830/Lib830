@@ -1,8 +1,8 @@
-#include <PIDSource.h>
-#include <PIDOutput.h>
+#include <frc/PIDSource.h>
+#include <frc/PIDOutput.h>
 #include <atomic>
 
-class PIDInputVariable : public PIDSource {
+class PIDInputVariable : public frc::PIDSource {
     std::atomic<double> value;
     double PIDGet() {
         return value;
@@ -16,7 +16,7 @@ class PIDInputVariable : public PIDSource {
     }
 };
 
-class PIDOutputVariable : public PIDOutput {
+class PIDOutputVariable : public frc::PIDOutput {
     std::atomic<double> value;
     void PIDWrite(double output) {
         value = output;

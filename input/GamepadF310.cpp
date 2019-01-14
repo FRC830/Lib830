@@ -1,5 +1,7 @@
 #include "GamepadF310.h"
 
+using frc::Joystick;
+
 namespace Lib830 {
 
 	GamepadF310::GamepadF310(int port):

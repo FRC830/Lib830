@@ -1,6 +1,6 @@
 #include <set>
 #include <string>
-#include <WPILib.h>
+#include <frc/DriverStation.h>
 
 #include "Logging.h"
 
@@ -22,7 +22,7 @@ namespace Logging {
 			return;
 		out += msg;
 		if (!silent)
-			DriverStation::ReportWarning(out);
+			frc::DriverStation::ReportWarning(out);
 	}
 
 }}
